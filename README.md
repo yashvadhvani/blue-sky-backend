@@ -90,3 +90,42 @@ $ yarn run start:prod
 ```bash
 $ yarn run migrate
 ```
+
+# Hosting
+
+I have been using EC2 + GITHUB actions which makes this process a bit easier and stable. Using Amazon Elastic Compute Cloud (EC2) instances in conjunction with GitHub Actions provides a flexible and scalable infrastructure for deploying and automating various tasks in your software development workflow. Below, I'll outline the steps involved and the benefits of using EC2 instances with GitHub Actions.
+
+**Steps for Using EC2 with GitHub Actions:**
+
+1. **Create an EC2 Instance**:
+
+   - Start by creating an EC2 instance on AWS with the necessary specifications for your project.
+
+2. **SSH Access**:
+
+   - Set up SSH key pairs to allow secure access to your EC2 instance. Keep the private key secure on your local machine.
+
+3. **Configure Security Groups**:
+
+   - Configure security groups for your EC2 instance to control inbound and outbound traffic, allowing access on the ports required for your application.
+
+4. **Install Dependencies**:
+
+   - SSH into your EC2 instance and install any necessary dependencies for your application, such as Node.js, databases, and other runtime requirements.
+
+5. **Set Up Your Application**:
+
+   - Clone your GitHub repository onto the EC2 instance.
+   - Configure environment variables, secrets, and any other settings required for your application.
+
+6. **GitHub Actions Workflow**:
+
+   - Create a GitHub Actions workflow in your repository by adding a YAML file to the `.github/workflows` directory.
+   - Define the workflow triggers (e.g., push, pull request, schedule) and specify the steps to execute.
+
+7. **SSH Deployment Step**:
+
+   - Include an SSH deployment step in your GitHub Actions workflow. This step involves using your SSH private key to securely connect to your EC2 instance and trigger actions like pulling the latest code, running tests, or deploying the application.
+
+8. **Post-Deployment Actions**:
+   - After deployment, you can perform additional actions, such as restarting services, clearing caches, or notifying team members, as needed.
