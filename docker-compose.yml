@@ -1,0 +1,32 @@
+version: '3'
+services:
+  blue-sky-postgres:
+    image: postgis/postgis
+    environment:
+      POSTGRES_DB: blueanalytics
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+    ports:
+      - "5432:5432"
+    
+
+  blue-sky-backend:
+    build:
+      context: .
+    depends_on:
+      - blue-sky-postgres
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: blue-sky-postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: blueanalytics
+    command: sh -c "npm run migrate && npm start"
+    restart: always
