@@ -8,7 +8,7 @@ import { PEOPLE } from 'src/constants';
 export class PeopleController {
   constructor(private readonly peopleService: PeopleService) {}
 
-  @Get('states/:stateId')
+  @Get('state/:stateId')
   @ApiQuery({ required: false, name: 'page' })
   @ApiQuery({ required: false, name: 'limit' })
   async findPeopleInState(

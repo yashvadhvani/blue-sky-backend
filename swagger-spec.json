@@ -12,7 +12,7 @@
         }
       }
     },
-    "/people/states/{stateId}": {
+    "/people/state/{stateId}": {
       "get": {
         "operationId": "PeopleController_findPeopleInState",
         "parameters": [
