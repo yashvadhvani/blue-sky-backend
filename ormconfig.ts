@@ -16,6 +16,7 @@ const config = new DataSource({
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
   logger: new CustomLogger(['log', 'error', 'info', 'warn']),
+  ssl: true,
 });
 
 export default config;
