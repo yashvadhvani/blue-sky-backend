@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { StateEntitiy } from './entities/state.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { STATES } from '../constants';
 
 @Injectable()
 export class StateService {
@@ -20,8 +21,8 @@ export class StateService {
 
   findAll(): Promise<Partial<StateEntitiy[]>> {
     return this.stateRepository
-      .createQueryBuilder('state')
-      .select(['state.id', 'state.name']) // Select only 'id' and 'name' fields
+      .createQueryBuilder(STATES)
+      .select([`${STATES}.id`, `${STATES}.name`]) // Select only 'id' and 'name' fields
       .getMany();
   }
 }

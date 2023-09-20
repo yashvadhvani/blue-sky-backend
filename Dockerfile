@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:16
 
 WORKDIR /app
 
@@ -10,4 +10,4 @@ COPY . .
 
 RUN npm run build
 
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "migrate:start" ]

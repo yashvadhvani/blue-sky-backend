@@ -13,7 +13,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       database: process.env.DB_NAME || 'your_database',
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       synchronize: process.env.NODE_ENV === 'development',
-      ssl: true,
+      // ssl: true,
     };
   }
 }

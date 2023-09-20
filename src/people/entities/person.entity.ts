@@ -1,15 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { Geometry } from 'geojson';
+import { PEOPLE } from '../../constants';
 
-@Entity('people') // Specify the name of the database table
+@Entity(PEOPLE)
 export class PersonEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 }) // Adjust the data type and length as needed
+  @Column({ type: 'varchar', length: 255 })
   first_name: string;
 
-  @Column({ type: 'varchar', length: 255 }) // Adjust the data type and length as needed
+  @Column({ type: 'varchar', length: 255 })
   last_name: string;
 
   @Column({
@@ -17,5 +18,5 @@ export class PersonEntity {
     spatialFeatureType: 'Point',
     srid: 4326,
   })
-  location: Geometry; // Define a PostGIS geometry column for state boundaries
+  location: Geometry;
 }

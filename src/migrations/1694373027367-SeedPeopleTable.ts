@@ -1,8 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
+import { createReadStream, promises as fsPromises } from 'fs';
 import { Transform } from 'stream';
-
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { Readable } from 'typeorm/platform/PlatformTools';
+import { BUCKET_NAME, PEOPLE } from '../constants';
 
 const getParsedData = (line: string) => {
   const commaIndex: number = line.indexOf(',');
@@ -19,10 +18,9 @@ const getParsedData = (line: string) => {
 };
 
 const insertData = async (queryRunner: QueryRunner, data: string[]) => {
-  // const
   try {
     const query = `
-      INSERT INTO "people" ("first_name", "last_name", "location")
+      INSERT INTO "${PEOPLE}" ("first_name", "last_name", "location")
       VALUES
         ${data
           .map(
@@ -45,60 +43,51 @@ const insertData = async (queryRunner: QueryRunner, data: string[]) => {
   }
 };
 
-const streamListner = (queryRunner) => {
-  const bucketName = 'backend-assignment';
+const streamListner = async (queryRunner: QueryRunner) => {
   let incompleteLine = ''; // Store the incomplete line from the previous chunk
   let ignoreFirstLine = true;
-  return new Promise(async (resolve) => {
-    // let continueExec = true;
-    const client = new S3Client({
-      region: 'us-east-2',
-      signer: { sign: async (request) => request },
-    });
+  return new Promise((resolve) => {
+    console.log('SEED PEOPLE TABLE START');
+    const individualStream = createReadStream(
+      'backend-assignment/individuals.csv',
+    );
+    individualStream.pipe(
+      new Transform({
+        async transform(chunk, encoding, callback) {
+          let data = chunk.toString();
 
-    const objectResponse = await client.send(
-      new GetObjectCommand({
-        Bucket: bucketName,
-        Key: 'individuals.csv',
+          if (incompleteLine) {
+            data = incompleteLine + data;
+            incompleteLine = ''; // Reset incompleteLine
+          }
+
+          const lines: string[] = data.split('\n');
+
+          incompleteLine = lines.pop();
+          if (ignoreFirstLine) {
+            lines.shift();
+            ignoreFirstLine = false;
+          }
+          await insertData(queryRunner, lines);
+
+          callback();
+        },
       }),
     );
-
-    if (objectResponse.Body) {
-      const readableStream = objectResponse.Body as Readable;
-      readableStream.pipe(
-        new Transform({
-          transform(chunk, encoding, callback) {
-            let data = chunk.toString();
-
-            // If there's an incomplete line from the previous chunk, prepend it to the current data
-            if (incompleteLine) {
-              data = incompleteLine + data;
-              incompleteLine = ''; // Reset incompleteLine
-            }
-
-            const lines: string[] = data.split('\n');
-
-            // The last element of 'lines' may be an incomplete line, so store it in incompleteLine
-            incompleteLine = lines.pop();
-            if (ignoreFirstLine) {
-              lines.shift();
-              ignoreFirstLine = false;
-            }
-            insertData(queryRunner, lines);
-            callback();
-          },
-        }),
-      );
-      readableStream.on('end', () => resolve(true));
-    } else {
+    individualStream.on('end', () => {
+      console.log('SEED PEOPLE TABLE END');
       resolve(true);
-    }
+    });
   });
 };
 
 export class SeedPeopleTable1694373027367 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await streamListner(queryRunner);
+    console.log('REMOVE LOCAL FILES START');
+    await fsPromises.rm(BUCKET_NAME, { recursive: true, force: true });
+    console.log('REMOVE LOCAL FILES END');
+    return;
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

@@ -12,7 +12,7 @@
         }
       }
     },
-    "/people/{stateId}": {
+    "/people/states/{stateId}": {
       "get": {
         "operationId": "PeopleController_findPeopleInState",
         "parameters": [
@@ -26,18 +26,18 @@
           },
           {
             "name": "page",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
@@ -48,7 +48,7 @@
         }
       }
     },
-    "/state": {
+    "/states": {
       "get": {
         "operationId": "StateController_findAll",
         "parameters": [],
@@ -59,7 +59,7 @@
         }
       }
     },
-    "/state/{id}": {
+    "/states/{id}": {
       "get": {
         "operationId": "StateController_findOne",
         "parameters": [
@@ -81,8 +81,8 @@
     }
   },
   "info": {
-    "title": "Title",
-    "description": "description",
+    "title": "Blue Sky Analytics",
+    "description": "People By State Assignment",
     "version": "1.0",
     "contact": {}
   },

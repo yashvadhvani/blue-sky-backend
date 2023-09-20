@@ -8,6 +8,7 @@ Before you can use this Docker Compose configuration, make sure you have the fol
 
 - Docker: [Install Docker](https://docs.docker.com/get-docker/)
 - Docker Compose: [Install Docker Compose](https://docs.docker.com/compose/install/)
+- ADD Env values if running in local or docker. Please update .env or Environment Variables in docket [MANDETORY]
 
 ## Getting Started
 
@@ -18,7 +19,7 @@ Before you can use this Docker Compose configuration, make sure you have the fol
 3. Run the following command to start the services:
 
    ```bash
-   docker-compose up
+   docker-compose up --build
    ```
 
    This will build the `blue-sky-backend` service and start both services.
@@ -35,7 +36,7 @@ Before you can use this Docker Compose configuration, make sure you have the fol
 - Environment Variables:
   - `POSTGRES_DB`: The name of the database (blueanalytics).
   - `POSTGRES_USER`: The PostgreSQL username (postgres).
-  - `POSTGRES_PASSWORD`: The PostgreSQL password (postgres).
+  - `POSTGRES_PASSWORD`: The PostgreSQL password.
 - Healthcheck: Verifies if PostgreSQL is ready to accept connections.
 
 ### `blue-sky-backend` Service
@@ -45,7 +46,7 @@ Before you can use this Docker Compose configuration, make sure you have the fol
   - `DB_HOST`: Hostname for the PostgreSQL database (blue-sky-postgres).
   - `DB_PORT`: PostgreSQL database port (5432).
   - `DB_USERNAME`: PostgreSQL username (postgres).
-  - `DB_PASSWORD`: PostgreSQL password (postgres).
+  - `DB_PASSWORD`: PostgreSQL password .
   - `DB_NAME`: Name of the PostgreSQL database (blueanalytics).
 - Builds the backend code, runs migrations, and starts the server.
 - Exposes the server on port 3000.
@@ -72,10 +73,11 @@ docker-compose down
 $ yarn install
 ```
 
-## Running the app
+## Running the app Locally without docker
 
 ```bash
-# development
+# Prodcution
+$ yarn run build
 $ yarn run start
 
 # watch mode
@@ -90,6 +92,37 @@ $ yarn run start:prod
 ```bash
 $ yarn run migrate
 ```
+
+## API Documentation
+
+Welcome to the API documentation for our project! Our API documentation is automatically generated using OpenAPI 3.0, providing you with up-to-date information about our API.
+
+### Accessing API Docs
+
+To access the automatically generated API documentation, follow these simple steps:
+
+1. Start the application if it's not already running.
+
+2. Open your web browser or API client of choice.
+
+3. In the address bar, enter the following URL:
+
+   ```
+   http://localhost:3000/api-docs
+   ```
+
+   If your application is hosted on a different server or port, replace `localhost:3000` with the appropriate host and port.
+
+4. Press Enter or navigate to the URL.
+
+### Exploring the Documentation
+
+Our API documentation is automatically generated using OpenAPI 3.0, providing detailed information about the available API endpoints, request methods, request and response formats, and any authentication requirements. You can use this documentation to:
+
+- Understand how to interact with our API.
+- Explore the available endpoints and their functionality.
+- Test API requests and responses directly from the documentation.
+- Learn about authentication methods, if applicable.
 
 # Hosting
 

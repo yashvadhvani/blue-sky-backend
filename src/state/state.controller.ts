@@ -1,7 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { STATES } from '../constants';
 import { StateService } from './state.service';
 
-@Controller('state')
+@Controller(STATES)
 export class StateController {
   constructor(private readonly stateService: StateService) {}
 

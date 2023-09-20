@@ -17,5 +17,6 @@ export class StateEntitiy {
     spatialFeatureType: 'Geometry',
     srid: 4326,
   })
+  // @Index('idx_boundary', { spatial: true })
   boundary: Geometry; // Define a PostGIS geometry column for state boundaries
 }

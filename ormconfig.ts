@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
+import { CustomLogger } from './CustomLogger';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -14,8 +15,7 @@ const config = new DataSource({
   database: process.env.DB_NAME,
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
-  logging: false,
-  logNotifications: false,
+  logger: new CustomLogger(['log', 'error', 'info', 'warn']),
 });
 
 export default config;
