@@ -26,7 +26,7 @@ Before you can use this Docker Compose configuration, make sure you have the fol
 
 4. Wait for the services to start. The `blue-sky-backend` service will automatically run migrations and start the backend server.
 
-5. Once the services are up and running, you can access the Blue Sky Analytics backend at `http://localhost:3000`. The PostgreSQL database is available at `localhost:5432`.
+5. Once the services are up and running, you can access the Blue Sky Analytics backend at `http://localhost:3000`. The PostgreSQL db is available at `localhost:5432`.
 
 ## Service Details
 
