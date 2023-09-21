@@ -52,7 +52,7 @@ export class PeopleService {
           : null,
       previous:
         peopleInsideState.length > 0 && page > 0
-          ? `/people/${stateId}?page${page - 1}&limit=${limit}`
+          ? `/people/${stateId}?page=${page - 1}&limit=${limit}`
           : null,
       page,
       limit,
